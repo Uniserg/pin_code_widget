@@ -9,25 +9,30 @@ class PinNumbersStyle {
 
   final double pinSpacing;
 
-  final Color? filledPinColor;
+  final Color? filledColor;
 
   final Color? failedPinColor;
 
-  final Color? unfilledPinColor;
+  final Color? successColor;
+
+  final Color? unfilledColor;
 
   const PinNumbersStyle({
     this.pinSize = 25,
     this.pinInflateRatio = 1.5,
     this.pinJoggleRatio = 1.5,
     this.pinSpacing = 20,
-    this.filledPinColor,
+    this.filledColor,
     this.failedPinColor,
-    this.unfilledPinColor = Colors.transparent,
+    this.successColor,
+    this.unfilledColor = Colors.transparent,
   });
 
   Color getPinPrimaryColor(context) =>
-      filledPinColor ?? Theme.of(context).primaryColor;
+      filledColor ?? Theme.of(context).primaryColor;
 
   Color getPinFailedColor(context) =>
       failedPinColor ?? Theme.of(context).colorScheme.error;
+
+  Color getSuccesColor(context) => successColor ?? Theme.of(context).colorScheme.scrim;
 }

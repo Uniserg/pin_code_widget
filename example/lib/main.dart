@@ -20,7 +20,7 @@ class MainApp extends StatelessWidget {
         ),
         pinLen: 4,
         pinNumbersStyle:
-            PinNumbersStyle(unfilledPinColor: Colors.blue.withOpacity(0.5)),
+            PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
       );
 
   @override

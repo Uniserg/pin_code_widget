@@ -97,7 +97,7 @@ class _PointNumberState extends State<PointNumber>
                         shape: BoxShape.circle,
                         color: pointNotifier.filled
                             ? getPinColor(context)
-                            : style.unfilledPinColor,
+                            : style.unfilledColor,
                       ),
                     ),
                   ),
