@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
         onFailureHint: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            "Неверный пин-код! Попробуйте еще раз.",
+            "Invalid PIN-code! Try again.",
             style: TextStyle(color: Colors.red, fontSize: 18),
           ),
         ),
@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(
-                      "Введите код-пароль",
+                      "Enter the PIN-code",
                       style: TextStyle(
                           fontSize: 24, color: Theme.of(context).primaryColor),
                     ),
@@ -50,7 +50,7 @@ class MainApp extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {},
                       child: const Text(
-                        "Не можете войти?",
+                        "Forgot?",
                         style: TextStyle(fontSize: 24),
                       ),
                     ),
