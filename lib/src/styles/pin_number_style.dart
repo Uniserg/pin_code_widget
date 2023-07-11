@@ -34,5 +34,6 @@ class PinNumbersStyle {
   Color getPinFailedColor(context) =>
       failedPinColor ?? Theme.of(context).colorScheme.error;
 
-  Color getSuccesColor(context) => successColor ?? Theme.of(context).colorScheme.scrim;
+  Color getSuccesColor(context) =>
+      successColor ?? Colors.greenAccent;
 }

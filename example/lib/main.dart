@@ -19,8 +19,27 @@ class MainApp extends StatelessWidget {
           ),
         ),
         pinLen: 4,
-        pinNumbersStyle:
-            PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
+        keyboardStyle: const KeyboardStyle(
+            width: 350,
+            deleteIcon: Icon(
+              Icons.backspace_rounded,
+              size: 32,
+            )),
+        pinNumbersStyle: PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
+        authButton: IconButton(
+          // iconSize: 60,
+          // заменить
+          // style: ElevatedButton.styleFrom(
+          //     shape: const CircleBorder(),
+          //     side: BorderSide(
+          //         color: Theme.of(context).colorScheme.onPrimary, width: 2)),
+          onPressed: () {},
+          icon: const Icon(
+            Icons.fingerprint,
+            color: Colors.blue,
+            size: 60,
+          ),
+        ),
       );
 
   @override
@@ -43,9 +62,8 @@ class MainApp extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Center(
-                    child:
-                        Container(alignment: Alignment.center, child: newPin),
-                  ),
+                      child: Container(
+                          alignment: Alignment.center, child: newPin)),
                   Center(
                     child: TextButton(
                       onPressed: () {},

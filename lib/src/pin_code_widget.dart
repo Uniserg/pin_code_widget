@@ -43,7 +43,13 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
 
   @override
   void dispose() {
+    
+    for (var p in pinNotifier.pointers) {
+      p.dispose();
+    }
+
     pinNotifier.dispose();
+
     super.dispose();
   }
 
@@ -73,18 +79,7 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
         onPressed: _onPressed,
         keyboardStyle: widget.keyboardStyle,
         onDeletePressed: _onRemove,
-        authButton: ElevatedButton(
-          // заменить
-          style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              side: BorderSide(
-                  color: Theme.of(context).colorScheme.onPrimary, width: 2)),
-          onPressed: () {},
-          child: const Icon(
-            Icons.fingerprint,
-            size: 32,
-          ),
-        ),
+        authButton: widget.authButton,
       );
 
   @override

@@ -16,15 +16,34 @@ class KeyboardWidget extends StatelessWidget {
 
   final Widget? authButton;
 
+  ElevatedButton getButton(BuildContext context, Color color,
+      void Function()? onPressed, Widget child) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        foregroundColor: keyboardStyle.getOnPressColorAnimation(context),
+        side: keyboardStyle.getBorderSide(context),
+        shape: const CircleBorder(),
+      ),
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Center(
       child: Container(
         padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
+        // width: keyboardStyle.width,
         width: keyboardStyle.width,
-        height: keyboardStyle.height,
+        // TODO: УБРАТЬ HEIGHT
+        // height: keyboardStyle.height,
+        
         child: GridView.count(
+          shrinkWrap: true,
           crossAxisCount: 3,
           mainAxisSpacing: keyboardStyle.verticalSpacing,
           crossAxisSpacing: keyboardStyle.horizontalSpacing,
@@ -35,36 +54,23 @@ class KeyboardWidget extends StatelessWidget {
               if (index == 9) return authButton ?? Container();
               if (index == 11) {
                 return MergeSemantics(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          keyboardStyle.getDeleteButtonColor(context),
-                      foregroundColor:
-                          keyboardStyle.getOnPressColorAnimation(context),
-                      side: keyboardStyle.getBorderSide(context),
-                      shape: const CircleBorder(),
-                    ),
-                    onPressed: onDeletePressed,
-                    child: keyboardStyle.deleteIcon,
-                  ),
+                  child: getButton(
+                      context,
+                      keyboardStyle.getDeleteButtonColor(context),
+                      onDeletePressed,
+                      keyboardStyle.deleteIcon),
                 );
               } else if (index == 10) {
                 index = 0;
               } else {
                 index++;
               }
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: keyboardStyle.getButtonColor(context),
-                  foregroundColor:
-                      keyboardStyle.getOnPressColorAnimation(context),
-                  side: keyboardStyle.getBorderSide(context),
-                  shape: const CircleBorder(),
-                ),
-                onPressed: () => onPressed!(index),
-                child: Text('$index',
-                    style: keyboardStyle.getNumberStyle(context)),
-              );
+
+              return getButton(
+                  context,
+                  keyboardStyle.getButtonColor(context),
+                  () => onPressed!(index),
+                  Text('$index', style: keyboardStyle.getNumberStyle(context)));
             },
           ),
         ),

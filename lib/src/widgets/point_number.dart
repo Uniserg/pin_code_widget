@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../notifiers/point_notifier.dart';
 import '../styles/pin_number_style.dart';
 import '../notifiers/pin_notifier.dart';
 
@@ -63,10 +64,14 @@ class _PointNumberState extends State<PointNumber>
       controller.forward();
     }
 
-    Color getPinColor(BuildContext context) =>
-        (pinNotifier.isAuth == null || pinNotifier.isAuth!)
-            ? style.getPinPrimaryColor(context)
-            : style.getPinFailedColor(context);
+    Color getPinColor(BuildContext context) {
+      final isAuth = pinNotifier.isAuth;
+
+      if (isAuth == null) return style.getPinPrimaryColor(context);
+      if (!isAuth) return style.getPinFailedColor(context);
+
+      return style.getSuccesColor(context);
+    }
 
     double size = max(style.pinSize * style.pinInflateRatio,
         style.pinSize + style.pinJoggleRatio * style.pinSpacing);

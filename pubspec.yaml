@@ -1,10 +1,10 @@
 name: pin_code_widget
 description: Awesome customizable PIN-code widget for any platform.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Uniserg/pin_code_widget
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: '>=2.19.4 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
