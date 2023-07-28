@@ -25,14 +25,9 @@ class MainApp extends StatelessWidget {
               Icons.backspace_rounded,
               size: 32,
             )),
-        pinNumbersStyle: PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
+        pinNumbersStyle:
+            PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
         authButton: IconButton(
-          // iconSize: 60,
-          // заменить
-          // style: ElevatedButton.styleFrom(
-          //     shape: const CircleBorder(),
-          //     side: BorderSide(
-          //         color: Theme.of(context).colorScheme.onPrimary, width: 2)),
           onPressed: () {},
           icon: const Icon(
             Icons.fingerprint,

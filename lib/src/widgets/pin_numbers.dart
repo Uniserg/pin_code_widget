@@ -26,7 +26,8 @@ class PinNumbersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size = max(style.pinSize * style.pinInflateRatio, style.pinJoggleRatio * style.pinSpacing);
+    double size = max(style.pinSize * style.pinInflateRatio,
+        style.pinJoggleRatio * style.pinSpacing);
 
     return AnimatedBuilder(
       animation: pinNotifier,

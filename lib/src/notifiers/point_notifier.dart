@@ -10,8 +10,7 @@ class PointNotifier extends ChangeNotifier {
   Duration joggleDuration;
 
   PointNotifier(this.num,
-      {this.inflateDuration = const Duration(milliseconds: 100),
-      this.joggleDuration = const Duration(milliseconds: 100)});
+      {required this.inflateDuration, required this.joggleDuration});
 
   bool get filled => _filled;
 

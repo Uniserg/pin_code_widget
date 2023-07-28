@@ -39,11 +39,12 @@ class PinCodeWidget extends StatefulWidget {
 }
 
 class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
-  late PinNotifier pinNotifier = PinNotifier(widget.pinLen);
+  late PinNotifier pinNotifier = PinNotifier(widget.pinLen,
+      joggleDuration: widget.pinNumbersStyle.joggleDuration,
+      inflateDuration: widget.pinNumbersStyle.inflateDuration);
 
   @override
   void dispose() {
-    
     for (var p in pinNotifier.pointers) {
       p.dispose();
     }
@@ -60,7 +61,8 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
       var isAuth = await widget.onAuth(pinNotifier.pin);
       pinNotifier.isAuth = isAuth;
 
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      // Reset points after duration
+      Future.delayed(widget.pinNumbersStyle.successDuration, () {
         pinNotifier.clear();
       });
     }

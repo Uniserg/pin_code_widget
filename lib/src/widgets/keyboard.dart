@@ -32,16 +32,11 @@ class KeyboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Container(
         padding: const EdgeInsets.all(8.0),
         alignment: Alignment.center,
-        // width: keyboardStyle.width,
         width: keyboardStyle.width,
-        // TODO: УБРАТЬ HEIGHT
-        // height: keyboardStyle.height,
-        
         child: GridView.count(
           shrinkWrap: true,
           crossAxisCount: 3,

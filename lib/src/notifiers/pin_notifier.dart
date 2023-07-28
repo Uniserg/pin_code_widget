@@ -10,8 +10,12 @@ class PinNotifier extends ChangeNotifier {
   bool isFilled = false;
   bool? _isAuth;
 
-  PinNotifier(this.pinCap)
-      : _pin = List.generate(pinCap, (index) => PointNotifier(0));
+  PinNotifier(this.pinCap, {inflateDuration, joggleDuration})
+      : _pin = List.generate(
+            pinCap,
+            (index) => PointNotifier(0,
+                joggleDuration: joggleDuration,
+                inflateDuration: inflateDuration));
 
   String get pin => _pin.take(_pinLen).map((e) => e.num).join();
 
@@ -27,7 +31,6 @@ class PinNotifier extends ChangeNotifier {
     if (_isAuth == null) return;
 
     if (!_isAuth!) {
-      // HapticFeedback.heavyImpact();
       HapticFeedback.vibrate();
       for (var p in _pin) {
         p.runJoggleAnitmation();

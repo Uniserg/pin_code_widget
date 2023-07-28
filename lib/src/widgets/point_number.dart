@@ -29,7 +29,9 @@ class _PointNumberState extends State<PointNumber>
   void initState() {
     super.initState();
     controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 600));
+      vsync: this,
+      duration: widget.style.joggleDuration,
+    );
 
     animation = Tween(
             begin: 0.0,
@@ -50,7 +52,6 @@ class _PointNumberState extends State<PointNumber>
   @override
   void dispose() {
     controller.dispose();
-    widget.pointNotifier.dispose();
     super.dispose();
   }
 
@@ -79,35 +80,32 @@ class _PointNumberState extends State<PointNumber>
     return AnimatedBuilder(
         animation: pointNotifier,
         builder: (BuildContext context, Widget? child) {
-          return Directionality(
-            textDirection: TextDirection.ltr,
-            child: SizedBox(
-              width: size,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    left: -animation.value,
-                    right: animation.value,
-                    child: AnimatedContainer(
-                      width: !pointNotifier.inflate
-                          ? style.pinSize
-                          : style.pinSize * style.pinInflateRatio,
-                      height: !pointNotifier.inflate
-                          ? style.pinSize
-                          : style.pinSize * style.pinInflateRatio,
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: pointNotifier.filled
-                            ? getPinColor(context)
-                            : style.unfilledColor,
-                      ),
+          return SizedBox(
+            width: size,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  left: -animation.value,
+                  right: animation.value,
+                  child: AnimatedContainer(
+                    width: !pointNotifier.inflate
+                        ? style.pinSize
+                        : style.pinSize * style.pinInflateRatio,
+                    height: !pointNotifier.inflate
+                        ? style.pinSize
+                        : style.pinSize * style.pinInflateRatio,
+                    duration: style.inflateDuration,
+                    curve: Curves.easeInOut,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: pointNotifier.filled
+                          ? getPinColor(context)
+                          : style.unfilledColor,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         });
