@@ -23,21 +23,19 @@ class PinNotifier extends ChangeNotifier {
 
   int get pinLen => _pinLen;
 
-  set isAuth(auth) {
+  set isAuth(bool? auth) {
     _isAuth = auth;
 
     notifyListeners();
 
-    if (_isAuth == null) return;
-
-    if (!_isAuth!) {
+    if (_isAuth == null || _isAuth == true) {
+      for (var p in _pin) {
+        p.runInflateAnitmation();
+      }
+    } else {
       HapticFeedback.vibrate();
       for (var p in _pin) {
         p.runJoggleAnitmation();
-      }
-    } else {
-      for (var p in _pin) {
-        p.runInflateAnitmation();
       }
     }
   }
@@ -57,18 +55,17 @@ class PinNotifier extends ChangeNotifier {
 
     point.filled = true;
     point.runInflateAnitmation();
-
-    notifyListeners();
   }
 
   void clear() {
     isFilled = false;
-    isAuth = null;
+    _isAuth = null;
     _pinLen = 0;
 
     for (var point in _pin) {
       point.filled = false;
     }
+    notifyListeners();
   }
 
   void pop() {

@@ -9,26 +9,26 @@ class PinCodeWidget extends StatefulWidget {
   const PinCodeWidget({
     super.key,
     required this.pinLen,
-    required this.onFilledPin,
     required this.onAuth,
     this.keyboardStyle = const KeyboardStyle(),
     this.marginPincode = const EdgeInsets.only(bottom: 0),
     this.authButton,
     this.pinNumbersStyle = const PinNumbersStyle(),
     this.onFailureHint = const SizedBox(),
+    this.onInfoHint,
   });
 
   final KeyboardStyle keyboardStyle;
 
   final Widget onFailureHint;
 
+  final Widget? onInfoHint;
+
   final PinNumbersStyle pinNumbersStyle;
 
   final Widget? authButton;
 
-  final void Function(String pin) onFilledPin;
-
-  final Future<bool> Function(String pin) onAuth;
+  final Future<bool?> Function(String pin) onAuth;
 
   final int pinLen;
 
@@ -89,15 +89,16 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
     return Column(
       children: [
         AnimatedBuilder(
-          animation: pinNotifier,
-          builder: (BuildContext context, Widget? child) => Visibility(
-            visible: isFailure,
-            maintainSize: true,
-            maintainAnimation: true,
-            maintainState: true,
-            child: widget.onFailureHint,
-          ),
-        ),
+            animation: pinNotifier,
+            builder: (BuildContext context, Widget? child) => Visibility(
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  visible: pinNotifier.isFilled,
+                  child: isFailure
+                      ? widget.onFailureHint
+                      : widget.onInfoHint ?? const SizedBox(),
+                )),
         Container(
           margin: widget.marginPincode,
           child: PinNumbersWidget(

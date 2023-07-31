@@ -9,8 +9,14 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   get newPin => PinCodeWidget(
-        onFilledPin: (String pin) {},
-        onAuth: (pin) async => pin == "1234",
+        onAuth: (pin) async => pin == '1111',
+        onInfoHint: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            "Enter pin-code again.",
+            style: TextStyle(color: Colors.blue, fontSize: 18),
+          ),
+        ),
         onFailureHint: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
@@ -25,8 +31,7 @@ class MainApp extends StatelessWidget {
               Icons.backspace_rounded,
               size: 32,
             )),
-        pinNumbersStyle:
-            PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
+        pinNumbersStyle: PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
         authButton: IconButton(
           onPressed: () {},
           icon: const Icon(

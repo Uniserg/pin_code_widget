@@ -8,13 +8,11 @@ class KeyboardStyle {
   final TextStyle? numberStyle;
   final BorderSide? borderSide;
   final double width;
-  final double height;
   final double horizontalSpacing;
   final double verticalSpacing;
 
   const KeyboardStyle(
       {this.width = 400,
-      this.height = 480,
       this.horizontalSpacing = 20,
       this.verticalSpacing = 20,
       this.deleteButtonColor,
