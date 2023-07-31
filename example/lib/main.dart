@@ -5,33 +5,93 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
-  get newPin => PinCodeWidget(
-        onAuth: (pin) async => pin == '1111',
-        onInfoHint: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Enter pin-code again.",
-            style: TextStyle(color: Colors.blue, fontSize: 18),
-          ),
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+enum HintType { failure, repeat, none }
+
+class InfoHintNotifier extends ChangeNotifier {
+  HintType _hint = HintType.none;
+
+  set currentHint(HintType hint) {
+    _hint = hint;
+    notifyListeners();
+  }
+
+  HintType get currentHint => _hint;
+}
+
+class _MainAppState extends State<MainApp> {
+  String? enteredPin;
+
+  late InfoHintNotifier hintNotifier;
+
+  @override
+  void initState() {
+    hintNotifier = InfoHintNotifier();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    hintNotifier.dispose();
+    super.dispose();
+  }
+
+  Future<bool?> onAuth(String pin) async {
+    if (enteredPin == null) {
+      enteredPin = pin;
+      hintNotifier.currentHint = HintType.repeat;
+
+      Future.delayed(const Duration(seconds: 1),
+          () => hintNotifier.currentHint = HintType.none);
+      return null;
+    }
+
+    final isAuthSuccess = pin == enteredPin;
+
+    if (isAuthSuccess) {
+      hintNotifier.currentHint = HintType.none;
+    } else {
+      hintNotifier.currentHint = HintType.failure;
+
+      Future.delayed(const Duration(seconds: 1),
+          () => hintNotifier.currentHint = HintType.none);
+    }
+    return isAuthSuccess;
+  }
+
+  get failureHint => const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          "Invalid PIN-code! Try again.",
+          style: TextStyle(color: Colors.red, fontSize: 18),
         ),
-        onFailureHint: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Invalid PIN-code! Try again.",
-            style: TextStyle(color: Colors.red, fontSize: 18),
-          ),
+      );
+
+  get repeatHint => const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          "Enter Pin-code againt to save",
+          style: TextStyle(color: Colors.blue, fontSize: 18),
         ),
+      );
+
+  get customPinCodeWidget => PinCodeWidget(
         pinLen: 4,
+        onAuth: onAuth,
         keyboardStyle: const KeyboardStyle(
             width: 350,
             deleteIcon: Icon(
               Icons.backspace_rounded,
               size: 32,
             )),
-        pinNumbersStyle: PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
+        pinNumbersStyle:
+            PinNumbersStyle(unfilledColor: Colors.blue.withOpacity(0.5)),
         authButton: IconButton(
           onPressed: () {},
           icon: const Icon(
@@ -39,6 +99,26 @@ class MainApp extends StatelessWidget {
             color: Colors.blue,
             size: 60,
           ),
+        ),
+      );
+
+  get hint => AnimatedBuilder(
+        animation: hintNotifier,
+        builder: (BuildContext context, Widget? child) => Visibility(
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          visible: hintNotifier.currentHint != HintType.none,
+          child: hintNotifier.currentHint == HintType.repeat
+              ? repeatHint
+              : failureHint,
+        ),
+      );
+
+  get title => Center(
+        child: Text(
+          "Enter the PIN-code",
+          style: TextStyle(fontSize: 24, color: Theme.of(context).primaryColor),
         ),
       );
 
@@ -53,17 +133,14 @@ class MainApp extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      "Enter the PIN-code",
-                      style: TextStyle(
-                          fontSize: 24, color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  title,
+                  hint,
+                  const SizedBox(height: 10),
                   Center(
                       child: Container(
-                          alignment: Alignment.center, child: newPin)),
+                    alignment: Alignment.center,
+                    child: customPinCodeWidget,
+                  )),
                   Center(
                     child: TextButton(
                       onPressed: () {},

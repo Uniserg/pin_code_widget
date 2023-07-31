@@ -14,15 +14,10 @@ class PinCodeWidget extends StatefulWidget {
     this.marginPincode = const EdgeInsets.only(bottom: 0),
     this.authButton,
     this.pinNumbersStyle = const PinNumbersStyle(),
-    this.onFailureHint = const SizedBox(),
-    this.onInfoHint,
+    this.blockAtherAuthSuccess = false,
   });
 
   final KeyboardStyle keyboardStyle;
-
-  final Widget onFailureHint;
-
-  final Widget? onInfoHint;
 
   final PinNumbersStyle pinNumbersStyle;
 
@@ -33,6 +28,8 @@ class PinCodeWidget extends StatefulWidget {
   final int pinLen;
 
   final EdgeInsets marginPincode;
+
+  final bool blockAtherAuthSuccess;
 
   @override
   State<StatefulWidget> createState() => PinCodeWidgetState();
@@ -61,6 +58,8 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
       var isAuth = await widget.onAuth(pinNotifier.pin);
       pinNotifier.isAuth = isAuth;
 
+      if ((isAuth ?? false) && widget.blockAtherAuthSuccess) return;
+
       // Reset points after duration
       Future.delayed(widget.pinNumbersStyle.successDuration, () {
         pinNotifier.clear();
@@ -88,17 +87,6 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AnimatedBuilder(
-            animation: pinNotifier,
-            builder: (BuildContext context, Widget? child) => Visibility(
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  visible: pinNotifier.isFilled,
-                  child: isFailure
-                      ? widget.onFailureHint
-                      : widget.onInfoHint ?? const SizedBox(),
-                )),
         Container(
           margin: widget.marginPincode,
           child: PinNumbersWidget(
