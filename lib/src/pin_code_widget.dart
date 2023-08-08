@@ -52,6 +52,10 @@ class PinCodeWidgetState<T extends PinCodeWidget> extends State<T> {
   }
 
   void _onPressed(int num) async {
+    if (pinNotifier.isFilled) {
+      return;
+    }
+
     pinNotifier.addNum(num);
 
     if (pinNotifier.isFilled) {
