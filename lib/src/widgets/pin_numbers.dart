@@ -34,9 +34,8 @@ class PinNumbersWidget extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return SizedBox(
           height: size,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(pinNotifier.pinCap, (index) {
               var curPoint = pinNotifier.pointers[index];
 
